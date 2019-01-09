@@ -34,7 +34,7 @@ POST | /users | Register a new user
 POST | /users/login | Allow a user to login
 DELETE | /users/token | Delete a token from a user
 
-## Trips Entity Endpoints 🎉
+## Trips Entity Endpoints ✈
 
 HTTP Methods | URI | Description
 ------------ | ------------- | -------------

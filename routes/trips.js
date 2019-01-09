@@ -14,7 +14,7 @@ module.exports = function(app){
 
     // GET ONE
     app.get('/trips/:id', (req, res) => {
-        Trip.find({ id: req.params.id }).then(
+        Trip.find({ _id: req.params.id }).then(
             (trip) => {
                 res.send({trip})
             }, (err) => {
@@ -45,7 +45,7 @@ module.exports = function(app){
 
     // DELETE
     app.delete('/trips/:id', (req, res, next) => {
-        Trip.findOneAndDelete({_id: req.params.id }).then(() => {
+        Trip.findOneAndDelete({ _id: req.params.id }).then(() => {
             res.send(204)
         }, (err) => {
             res.status(400).send({err})

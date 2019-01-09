@@ -25,21 +25,21 @@ This is the repository dedicated to the BringAThing API
 
 ## Users Entity Endpoints 👤
 
-HTTP Methods | URI | Description | Protection
+HTTP Methods | URI | Description | Protected
 ------------ | ------------- | ------------- | -------------
-GET | /users | Retrieve a list of all the registered users | 🔒
-GET | /users/id | Retrieve all the informations about a specific user | 🔒
-GET | /users/me | Retrieve informations about the user that ask them | 🔒
-POST | /users | Register a new user | 🔓
-POST | /users/login | Allow a user to login | 🔓
-DELETE | /users/token | Delete a token from a user | 🔒
+GET | /users | Retrieve a list of all the registered users | ✔
+GET | /users/id | Retrieve all the informations about a specific user | ✔
+GET | /users/me | Retrieve informations about the user that ask them | ✔
+POST | /users | Register a new user | ❌
+POST | /users/login | Allow a user to login | ❌
+DELETE | /users/token | Delete a token from a user | ✔
 
 ## Trips Entity Endpoints ✈
 
-HTTP Methods | URI | Description | Protection
+HTTP Methods | URI | Description | Protected
 ------------ | ------------- | ------------- | -------------
-GET | /trips | Retrieve a list of all the trips | 🔒
-GET | /trips/id | Retrieve all the informations about a specific event | 🔒
-POST | /trips | Register a new event | 🔒
-PATCH | /trips/id | Update informations about a specific event | 🔒
-DELETE | /trips/id | Delete all the information about a specific event | 🔒
+GET | /trips | Retrieve a list of all the trips | ✔
+GET | /trips/id | Retrieve all the informations about a specific event | ✔
+POST | /trips | Register a new event | ✔
+PATCH | /trips/id | Update informations about a specific event | ✔
+DELETE | /trips/id | Delete all the information about a specific event | ✔

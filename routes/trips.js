@@ -12,6 +12,15 @@ module.exports = function(app){
         })
     })
 
+    // GET SEARCH
+    app.get('/trips/search', (req, res) => {
+        Trip.find(req.query).then((trips) => {
+            res.status(200).send({trips})
+        }, (err) => {
+            res.status(400).send({err})
+        })
+    })
+
     // GET ONE
     app.get('/trips/:id', (req, res) => {
         Trip.find({ _id: req.params.id }).then(
@@ -23,8 +32,10 @@ module.exports = function(app){
         )
     })
 
+    
+
     // POST
-    app.post('/trips', (req, res, next) => {
+    app.post('/trips', (req, res) => {
         const { description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe } = req.body
         const trip = new Trip({ description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe })
         trip.save().then((trip) => {
@@ -35,7 +46,7 @@ module.exports = function(app){
     })
 
     // PATCH
-    app.patch('/trips/:id', (req, res, next) => {
+    app.patch('/trips/:id', (req, res) => {
         Trip.findOneAndUpdate({ _id: req.params.id }, req.body).then((trip) => {
             res.status(201).send({trip})
         }, (err) => {

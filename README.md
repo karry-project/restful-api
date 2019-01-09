@@ -40,6 +40,7 @@ HTTP Methods | URI | Description | Protected
 ------------ | ------------- | ------------- | -------------
 GET | /trips | Retrieve a list of all the trips | ✔
 GET | /trips/id | Retrieve all the informations about a specific event | ✔
+GET | /trips/search | Retrieve all trips that match the get params given | ✔
 POST | /trips | Register a new event | ✔
 PATCH | /trips/id | Update informations about a specific event | ✔
 DELETE | /trips/id | Delete all the information about a specific event | ✔

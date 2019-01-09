@@ -14,8 +14,9 @@ module.exports = function(app){
 
     // GET ONE
     app.get('/users/:id', (req, res) => {
-        User.find({ id: req.params.id }).then(
+        User.find({ _id: req.params.id }).then(
             (user) => {
+                console.log(user)
                 res.send({user})
             }, (err) => {
                 res.status(400).send({err})

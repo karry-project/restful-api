@@ -4,10 +4,9 @@ const {auth} = require('./../authenticate')
 module.exports = function(app){
 
     // GET ALL
-    app.get('/users', auth, (req, res) => {
+    app.get('/users', (req, res) => {
         User.find().then((users) => {
-            
-            res.status(200).send(users.getEmail())
+            res.status(200).send({users})
         }, (err) => {
             res.status(400).send({err})
         })

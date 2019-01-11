@@ -50,16 +50,10 @@ UserSchema.methods.toJSON = function () {
     return { _id, firstname, lastname, email }
 }
 
-UserSchema.methods.getEmail = function () {
-    let user = this
-    let { email } = user.toObject()
-    return { email }
-}
-
 UserSchema.methods.generateAuthToken = function () {
     let user = this
     let access = 'auth'
-    let token = jwt.sign({ _id: user._id.toHexString(), access }, 'secret_value').toString()
+    let token = jwt.sign({_id: user._id.toHexString(), access}, 'secret_value').toString()
     user.tokens.push({ access, token })
     return user.save().then(() => {
         return token

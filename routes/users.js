@@ -4,9 +4,16 @@ const {auth} = require('./../authenticate')
 module.exports = function(app){
 
     // GET ALL
+<<<<<<< HEAD
     app.get('/users', (req, res) => {
         User.find().then((users) => {
             res.status(200).send({users})
+=======
+    app.get('/users', auth, (req, res) => {
+        User.find().then((users) => {
+            
+            res.status(200).send(users.getEmail())
+>>>>>>> Changing project name
         }, (err) => {
             res.status(400).send({err})
         })

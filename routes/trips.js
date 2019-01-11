@@ -32,6 +32,8 @@ module.exports = function(app){
         )
     })
 
+    
+
     // POST
     app.post('/trips', (req, res) => {
         const { description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe } = req.body

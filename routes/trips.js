@@ -33,11 +33,7 @@ module.exports = function(app){
     })
 
     // POST
-<<<<<<< HEAD
-    app.post('/trips', (req, res, next) => {
-=======
     app.post('/trips', (req, res) => {
->>>>>>> Changing project name
         const { description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe } = req.body
         const trip = new Trip({ description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe })
         trip.save().then((trip) => {
@@ -48,11 +44,7 @@ module.exports = function(app){
     })
 
     // PATCH
-<<<<<<< HEAD
-    app.patch('/trips/:id', (req, res, next) => {
-=======
     app.patch('/trips/:id', (req, res) => {
->>>>>>> Changing project name
         Trip.findOneAndUpdate({ _id: req.params.id }, req.body).then((trip) => {
             res.status(201).send({trip})
         }, (err) => {

@@ -5,35 +5,35 @@ const TripSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 15,
-        trim: true
+        trim: true,
     },
     destinationCity: {
         type: String,
         required: true,
         minlength: 1,
-        trim: true
+        trim: true,
     },
     destinationCountry: {
         type: String,
         required: true,
         minlength: 1,
-        trim: true
+        trim: true,
     },
     carryWeight: {
         type: Number,
-        required: true
+        required: true,
 
     },
     carryMaxAmount: {
         type: Number,
-        required: true
+        required: true,
 
     },
     carryTaxe: {
         type: Number,
-        required: true
-    }
-})
+        required: true,
+    },
+});
 
-let Trip = mongoose.model('Trip', TripSchema)
-module.exports = {Trip}
+const Trip = mongoose.model('Trip', TripSchema);
+module.exports = { Trip };

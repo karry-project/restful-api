@@ -8,18 +8,18 @@ module.exports = app => {
 				res.status(200).send({ users });
 			},
 			err => {
-				res.status(400).send({ err });
+				res.status(400).send(err);
 			}
 		);
 	});
 
 	app.get('/users/:id', (req, res) => {
-		User.find({ _id: req.params.id }).then(
+		User.findOne({ _id: req.params.id }).then(
 			user => {
-				res.send({ user });
+				res.send(user);
 			},
 			err => {
-				res.status(400).send({ err });
+				res.status(400).send(err);
 			}
 		);
 	});
@@ -35,12 +35,13 @@ module.exports = app => {
 			email: req.body.email,
 			password: req.body.password
 		});
+
 		user.save()
 			.then(() => user.generateAuthToken())
 			.then(token => {
 				res.header('x-auth', token)
 					.status(200)
-					.send({ user });
+					.send(user);
 			})
 			.catch(err => {
 				res.status(400).send(err);
@@ -53,7 +54,7 @@ module.exports = app => {
 				user.generateAuthToken().then(token => {
 					res.header('x-auth', token)
 						.status(200)
-						.send({ user });
+						.send(user);
 				})
 			)
 			.catch(err => {

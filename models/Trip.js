@@ -30,6 +30,10 @@ const TripSchema = new mongoose.Schema({
 	carryTaxe: {
 		type: Number,
 		required: true
+	},
+	creator: {
+		type: String,
+		required: true
 	}
 });
 

@@ -24,6 +24,17 @@ module.exports = app => {
 		);
 	});
 
+	app.get('/users/:id/trips', auth, (req, res) => {
+		Event.find({ creator: req.params.id }).then(
+			trips => {
+				res.send(trips);
+			},
+			err => {
+				res.status(400).send(err);
+			}
+		);
+	});
+
 	app.get('/users/me', auth, (req, res) => {
 		res.status(200).send(req.user);
 	});

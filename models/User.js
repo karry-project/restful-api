@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const config = require('./../config/config');
 
 const UserSchema = new mongoose.Schema({
 	firstname: {
@@ -46,7 +47,7 @@ const UserSchema = new mongoose.Schema({
 	]
 });
 
-UserSchema.methods.toJSON = () => {
+UserSchema.methods.toJSON = function() {
 	const user = this;
 	const { _id, firstname, lastname, email } = user.toObject();
 	return {
@@ -57,7 +58,7 @@ UserSchema.methods.toJSON = () => {
 	};
 };
 
-UserSchema.methods.generateAuthToken = () => {
+UserSchema.methods.generateAuthToken = function() {
 	const user = this;
 	const access = 'auth';
 	const token = jwt
@@ -66,27 +67,27 @@ UserSchema.methods.generateAuthToken = () => {
 				_id: user._id.toHexString(),
 				access
 			},
-			'secret_value'
+			config.JWT_SECRET
 		)
 		.toString();
 	user.tokens.push({ access, token });
 	return user.save().then(() => token);
 };
 
-UserSchema.methods.removeToken = token => {
+UserSchema.methods.removeToken = function(token) {
 	const user = this;
-	return user.update({
+	return user.updateOne({
 		$pull: {
 			tokens: { token }
 		}
 	});
 };
 
-UserSchema.statics.findByToken = token => {
+UserSchema.statics.findByToken = function(token) {
 	const User = this;
 	let decoded;
 	try {
-		decoded = jwt.verify(token, 'secret_value');
+		decoded = jwt.verify(token, config.JWT_SECRET);
 	} catch (e) {
 		return Promise.reject();
 	}
@@ -97,7 +98,8 @@ UserSchema.statics.findByToken = token => {
 	});
 };
 
-UserSchema.statics.findByCredentials = (email, password) => {
+UserSchema.statics.findByCredentials = function(email, password) {
+	console.log('findByCredentials');
 	const User = this;
 	return User.findOne({ email }).then(user => {
 		if (!user) {
@@ -115,11 +117,11 @@ UserSchema.statics.findByCredentials = (email, password) => {
 	});
 };
 
-UserSchema.pre('save', next => {
+UserSchema.pre('save', function(next) {
 	const user = this;
 	if (user.isModified('password')) {
 		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(user.password, salt, hash => {
+			bcrypt.hash(user.password, salt, (err, hash) => {
 				user.password = hash;
 				next();
 			});

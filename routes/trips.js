@@ -35,8 +35,28 @@ module.exports = app => {
 	});
 
 	app.post('/trips', (req, res) => {
-		const { description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe, creator } = req.body;
-		const trip = new Trip({ description, destinationCity, destinationCountry, carryWeight, carryMaxAmount, carryTaxe, creator });
+		const {
+			description,
+			destinationCity,
+			destinationCountry,
+			departureCity,
+			departureCountry,
+			carryWeight,
+			carryMaxAmount,
+			carryTaxe,
+			creator
+		} = req.body;
+		const trip = new Trip({
+			description,
+			destinationCity,
+			destinationCountry,
+			departureCity,
+			departureCountry,
+			carryWeight,
+			carryMaxAmount,
+			carryTaxe,
+			creator
+		});
 		trip.save().then(
 			() => {
 				res.status(201).send(trip);

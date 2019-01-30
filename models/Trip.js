@@ -19,6 +19,18 @@ const TripSchema = new mongoose.Schema({
 		minlength: 1,
 		trim: true
 	},
+	departureCity: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
+	departureCountry: {
+		type: String,
+		required: true,
+		minlength: 1,
+		trim: true
+	},
 	carryWeight: {
 		type: Number,
 		required: true

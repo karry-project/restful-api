@@ -13,6 +13,10 @@ module.exports = app => {
 		);
 	});
 
+	app.get('/users/me', auth, (req, res) => {
+		res.status(200).send(req.user);
+	});
+
 	app.get('/users/:id', (req, res) => {
 		User.findOne({ _id: req.params.id }).then(
 			user => {
@@ -33,10 +37,6 @@ module.exports = app => {
 				res.status(400).send(err);
 			}
 		);
-	});
-
-	app.get('/users/me', auth, (req, res) => {
-		res.status(200).send(req.user);
 	});
 
 	app.post('/users', (req, res) => {
@@ -84,3 +84,14 @@ module.exports = app => {
 		);
 	});
 };
+
+/*
+{
+    "_id": "5c52d7e5aa1dda00170a618f",
+    "firstname": "Test",
+    "lastname": "Test",
+    "email": "test@gmail.com"
+}
+
+token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzUyZDdlNWFhMWRkYTAwMTcwYTYxOGYiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTQ4OTMzMDk0fQ.VvHRNajIvuovfZjg0vzUqZl2AQ_6iJTchb7YLr98DGs
+*/

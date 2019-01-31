@@ -1,4 +1,5 @@
 const { User } = require('./../models/User');
+const { Trip } = require('./../models/Trip');
 const { auth } = require('../middlewares/authenticate');
 
 module.exports = app => {
@@ -28,8 +29,8 @@ module.exports = app => {
 		);
 	});
 
-	app.get('/users/:id/trips', auth, (req, res) => {
-		Event.find({ creator: req.params.id }).then(
+	app.get('/users/:id/trips', (req, res) => {
+		Trip.find({ creator: req.params.id }).then(
 			trips => {
 				res.send(trips);
 			},
@@ -73,6 +74,17 @@ module.exports = app => {
 			});
 	});
 
+	app.patch('/users/:id', (req, res) => {
+		User.findOneAndUpdate({ _id: req.params.id }, req.body).then(
+			user => {
+				res.status(200).send(user);
+			},
+			err => {
+				res.status(400).send(err);
+			}
+		);
+	});
+
 	app.delete('/users/me/token', (req, res) => {
 		req.user.removeToken(req.token).then(
 			() => {
@@ -83,15 +95,29 @@ module.exports = app => {
 			}
 		);
 	});
+
+	app.delete('/users/:id', auth, (req, res) => {
+		User.findOneAndDelete({ _id: req.params.id }).then(
+			user => {
+				res.send(user);
+			},
+			err => {
+				res.status(400).send(err);
+			}
+		);
+	});
 };
 
 /*
 {
-    "_id": "5c52d7e5aa1dda00170a618f",
-    "firstname": "Test",
-    "lastname": "Test",
-    "email": "test@gmail.com"
+	"firstname": "test",
+	"lastname": "test",
+	"email": "test3@gmail.com",
+	"password": "testtest"
 }
 
-token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzUyZDdlNWFhMWRkYTAwMTcwYTYxOGYiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTQ4OTMzMDk0fQ.VvHRNajIvuovfZjg0vzUqZl2AQ_6iJTchb7YLr98DGs
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzUzMTgxMDFhM2ZmMzAwMTc3MzYxYjQiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTQ4OTQ5NTIwfQ.fW9zsKAK20ZFipZl6P0Th_EgJ4wW1dCW3Sc6G4cltcA
+
+
+
 */

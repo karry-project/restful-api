@@ -17,7 +17,7 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: tr
 const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use(express.static(__dirname + '/public'));
 
 require('./routes/users')(app);
 require('./routes/trips')(app);

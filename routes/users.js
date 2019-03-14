@@ -42,10 +42,12 @@ module.exports = app => {
 	});
 
 	app.post('/users', (req, res) => {
+		console.log(req.body);
 		const user = new User({
 			firstname: req.body.firstname,
 			lastname: req.body.lastname,
 			email: req.body.email,
+			phone: req.body.phone,
 			password: req.body.password
 		});
 
@@ -108,17 +110,3 @@ module.exports = app => {
 		);
 	});
 };
-
-/*
-{
-	"firstname": "test",
-	"lastname": "test",
-	"email": "test3@gmail.com",
-	"password": "testtest"
-}
-
-eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YzUzMTgxMDFhM2ZmMzAwMTc3MzYxYjQiLCJhY2Nlc3MiOiJhdXRoIiwiaWF0IjoxNTQ4OTQ5NTIwfQ.fW9zsKAK20ZFipZl6P0Th_EgJ4wW1dCW3Sc6G4cltcA
-5c5318101a3ff300177361b4
-
-
-*/

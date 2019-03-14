@@ -63,13 +63,13 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.methods.toJSON = function() {
 	const user = this;
-	const { _id, firstname, lastname, email, phone, profilePicture } = user.toObject();
+	const { _id, firstname, lastname, phone, email, profilePicture } = user.toObject();
 	return {
 		_id,
 		firstname,
 		lastname,
-		email,
 		phone,
+		email,
 		profilePicture
 	};
 };

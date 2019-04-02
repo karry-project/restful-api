@@ -1,2 +1,11 @@
-node_modules/
 Procfile
+node_modules/
+.npm
+.eslintcache
+.env
+package-lock.json
+.eslintrc.json
+.prettierrc
+./tests
+./config/dev.env
+./config/test.env

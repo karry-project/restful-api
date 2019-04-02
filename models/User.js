@@ -19,7 +19,6 @@ const UserSchema = new mongoose.Schema({
 	},
 	phone: {
 		type: String,
-		minlength: 1,
 		trim: true,
 		required: true
 	},
@@ -42,7 +41,7 @@ const UserSchema = new mongoose.Schema({
 	profilePicture: {
 		type: String,
 		required: true,
-		default: function() {
+		default: function () {
 			let id = Math.floor(Math.random() * 6) + 1;
 			return `${config.URL}uploads/default_${id}.png`;
 		}
@@ -59,22 +58,38 @@ const UserSchema = new mongoose.Schema({
 			}
 		}
 	]
-});
+}, {
+		toObject: {
+			virtuals: true
+		},
+		toJSON: {
+			virtuals: true
+		}
+	});
 
-UserSchema.methods.toJSON = function() {
-	const user = this;
-	const { _id, firstname, lastname, phone, email, profilePicture } = user.toObject();
-	return {
-		_id,
-		firstname,
-		lastname,
-		phone,
-		email,
-		profilePicture
-	};
+UserSchema.virtual('tripList', {
+	ref: 'Trip',
+	localField: '_id',
+	foreignField: 'owner'
+})
+
+UserSchema.virtual('requestList', {
+	ref: 'Request',
+	localField: '_id',
+	foreignField: 'creator'
+})
+
+UserSchema.methods.toJSON = function () {
+	const user = this
+	const userObject = user.toObject()
+
+	delete userObject.password
+	delete userObject.tokens
+
+	return userObject;
 };
 
-UserSchema.methods.generateAuthToken = function() {
+UserSchema.methods.generateAuthToken = function () {
 	const user = this;
 	const access = 'auth';
 	const token = jwt
@@ -90,7 +105,7 @@ UserSchema.methods.generateAuthToken = function() {
 	return user.save().then(() => token);
 };
 
-UserSchema.methods.removeToken = function(token) {
+UserSchema.methods.removeToken = function (token) {
 	const user = this;
 	return user.updateOne({
 		$pull: {
@@ -99,7 +114,7 @@ UserSchema.methods.removeToken = function(token) {
 	});
 };
 
-UserSchema.statics.findByToken = function(token) {
+UserSchema.statics.findByToken = function (token) {
 	const User = this;
 	let decoded;
 	try {
@@ -114,8 +129,7 @@ UserSchema.statics.findByToken = function(token) {
 	});
 };
 
-UserSchema.statics.findByCredentials = function(email, password) {
-	console.log('findByCredentials');
+UserSchema.statics.findByCredentials = function (email, password) {
 	const User = this;
 	return User.findOne({ email }).then(user => {
 		if (!user) {
@@ -133,7 +147,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
 	});
 };
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
 	const user = this;
 	if (user.isModified('password')) {
 		bcrypt.genSalt(10, (err, salt) => {

@@ -43,11 +43,23 @@ const TripSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
-	creator: {
-		type: String,
-		required: true
-	}
-});
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		required: true,
+		ref: 'User'
+	},
+	joinList: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+		}
+	]
+}, { toObject: { virtuals: true }, toJSON: { virtuals: true }, versionKey: false, _id: false, });
+
+TripSchema.virtual('requestList', {
+	ref: 'Request',
+	localField: '_id',
+	foreignField: 'tripId'
+})
 
 const Trip = mongoose.model('Trip', TripSchema);
 module.exports = { Trip };

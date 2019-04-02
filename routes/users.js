@@ -3,9 +3,11 @@ const { Trip } = require('./../models/Trip');
 const { auth } = require('../middlewares/authenticate');
 const upload = require('./../config/upload');
 
+const { sendNewUserEmail, sendDeletedUserEmail } = require('./../emails/accounts')
+
 module.exports = app => {
 	app.get('/users', (req, res) => {
-		User.find().then(
+		User.find().populate('tripList').populate('requestList').then(
 			users => {
 				res.status(200).send(users);
 			},
@@ -17,7 +19,7 @@ module.exports = app => {
 
 	app.get('/users/me', auth, (req, res) => {
 		res.status(200).send(req.user);
-	});
+	})
 
 	app.get('/users/:id', (req, res) => {
 		User.findOne({ _id: req.params.id }).then(
@@ -41,8 +43,7 @@ module.exports = app => {
 		);
 	});
 
-	app.post('/users', (req, res) => {
-		console.log(req.body);
+	app.post('/users/register', (req, res) => {
 		const user = new User({
 			firstname: req.body.firstname,
 			lastname: req.body.lastname,
@@ -54,8 +55,9 @@ module.exports = app => {
 		user.save()
 			.then(() => user.generateAuthToken())
 			.then(token => {
+				sendNewUserEmail(user.email, user.firstname)
 				res.header('x-auth', token)
-					.status(200)
+					.status(201)
 					.send(user);
 			})
 			.catch(err => {
@@ -73,7 +75,7 @@ module.exports = app => {
 				})
 			)
 			.catch(err => {
-				res.status(400).send(err);
+				res.status(401).send(err);
 			});
 	});
 
@@ -102,6 +104,7 @@ module.exports = app => {
 	app.delete('/users/:id', auth, (req, res) => {
 		User.findOneAndDelete({ _id: req.params.id }).then(
 			user => {
+				sendDeletedUserEmail(user.email, user.firstname)
 				res.send(user);
 			},
 			err => {

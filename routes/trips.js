@@ -2,7 +2,7 @@ const { Trip } = require('./../models/Trip');
 
 module.exports = app => {
 	app.get('/trips', (req, res) => {
-		Trip.find().then(
+		Trip.find().populate('requestList').then(
 			trips => {
 				res.status(200).send(trips);
 			},
@@ -44,7 +44,7 @@ module.exports = app => {
 			carryWeight,
 			carryMaxAmount,
 			carryTaxe,
-			creator
+			owner
 		} = req.body;
 		const trip = new Trip({
 			description,
@@ -55,7 +55,7 @@ module.exports = app => {
 			carryWeight,
 			carryMaxAmount,
 			carryTaxe,
-			creator
+			owner
 		});
 		trip.save().then(
 			() => {
@@ -70,7 +70,7 @@ module.exports = app => {
 	app.patch('/trips/:id', (req, res) => {
 		Trip.findOneAndUpdate({ _id: req.params.id }, req.body).then(
 			trip => {
-				res.status(201).send(trip);
+				res.status(200).send(trip);
 			},
 			err => {
 				res.status(400).send(err);

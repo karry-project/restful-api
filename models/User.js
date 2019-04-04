@@ -60,9 +60,11 @@ const UserSchema = new mongoose.Schema({
 	]
 }, {
 		toObject: {
+			versionKey: false,
 			virtuals: true
 		},
 		toJSON: {
+			versionKey: false,
 			virtuals: true
 		}
 	});
@@ -85,6 +87,7 @@ UserSchema.methods.toJSON = function () {
 
 	delete userObject.password
 	delete userObject.tokens
+	delete userObject._id
 
 	return userObject;
 };

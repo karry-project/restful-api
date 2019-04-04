@@ -6,6 +6,16 @@ const upload = require('./../config/upload');
 const { sendNewUserEmail, sendDeletedUserEmail } = require('./../emails/accounts')
 
 module.exports = app => {
+	/**
+	 * @swagger
+	 * /users:
+	 *   get:
+	*	summary: Returns a list of users.
+	 *     description: Should retrieve a list of all the users
+	 *     responses:
+	 *       200:
+	 *         description: users
+	 */
 	app.get('/users', (req, res) => {
 		User.find().populate('tripList').populate('requestList').then(
 			users => {
@@ -17,10 +27,28 @@ module.exports = app => {
 		);
 	});
 
+	/**
+	 * @swagger
+	 * /users/me:
+	 *   get:
+	 *     description: Should retrieve a list of all the users
+	 *     responses:
+	 *       200:
+	 *         description: users
+	 */
 	app.get('/users/me', auth, (req, res) => {
 		res.status(200).send(req.user);
 	})
 
+	/**
+	 * @swagger
+	 * /users:
+	 *   get:
+	 *     description: Should retrieve a list of all the users
+	 *     responses:
+	 *       200:
+	 *         description: users
+	 */
 	app.get('/users/:id', (req, res) => {
 		User.findOne({ _id: req.params.id }).then(
 			user => {

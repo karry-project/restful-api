@@ -5,5 +5,6 @@ module.exports = {
 	MONGODB_URI: process.env.MONGODB_URI || 'mongodb://karry-admin:karryproject2019@ds125422.mlab.com:25422/karry',
 	JWT_SECRET: process.env.JWT_SECRET || 'secret',
 	ADMIN_TOKEN: 'hmmmmmmchiwawa',
-	SEND_GRID_API_KEY: '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'
+	SEND_GRID_API_KEY: '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',
+	FIREBASE_ADMIN_KEY: 'firebase-adminsdk-85efj@karry-app-f106e.iam.gserviceaccount.com'
 };

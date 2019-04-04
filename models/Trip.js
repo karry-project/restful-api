@@ -53,13 +53,31 @@ const TripSchema = new mongoose.Schema({
 			type: mongoose.Schema.Types.ObjectId,
 		}
 	]
-}, { toObject: { virtuals: true }, toJSON: { virtuals: true }, versionKey: false, _id: false, });
+}, {
+		toObject: {
+			versionKey: false,
+			virtuals: true
+		},
+		toJSON: {
+			versionKey: false,
+			virtuals: true
+		}
+	});
 
 TripSchema.virtual('requestList', {
 	ref: 'Request',
 	localField: '_id',
 	foreignField: 'tripId'
 })
+
+TripSchema.methods.toJSON = function () {
+	const trip = this
+	const tripObject = trip.toObject()
+
+	delete tripObject._id
+
+	return tripObject;
+};
 
 const Trip = mongoose.model('Trip', TripSchema);
 module.exports = { Trip };

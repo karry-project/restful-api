@@ -2,7 +2,7 @@ const { Trip } = require('./../models/Trip');
 
 module.exports = app => {
 	app.get('/trips', (req, res) => {
-		Trip.find().populate('requestList').then(
+		Trip.find().populate('requestList').populate('owner').then(
 			trips => {
 				res.status(200).send(trips);
 			},

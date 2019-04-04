@@ -13,6 +13,12 @@ const RequestSchema = new mongoose.Schema({
         type: String,
         trim: true
     },
+    status: {
+        type: String,
+        enum: ['waiting', 'accepted', 'denied'],
+        default: 'waiting',
+
+    },
     creator: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,

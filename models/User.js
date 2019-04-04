@@ -69,17 +69,22 @@ const UserSchema = new mongoose.Schema({
 		}
 	});
 
+UserSchema.virtual('fullname').get(function () {
+	return this.firstname + ' ' + this.lastname;
+});
+
+
 UserSchema.virtual('tripList', {
 	ref: 'Trip',
 	localField: '_id',
 	foreignField: 'owner'
-})
+});
 
 UserSchema.virtual('requestList', {
 	ref: 'Request',
 	localField: '_id',
 	foreignField: 'creator'
-})
+});
 
 UserSchema.methods.toJSON = function () {
 	const user = this

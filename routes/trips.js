@@ -1,7 +1,7 @@
 const { Trip } = require('./../models/Trip');
 
 module.exports = app => {
-	app.get('/trips', (req, res) => {
+	app.get('/trips', auth, (req, res) => {
 		Trip.find().populate('requestList').populate('owner').then(
 			trips => {
 				res.status(200).send(trips);
@@ -12,7 +12,7 @@ module.exports = app => {
 		);
 	});
 
-	app.get('/trips/search', (req, res) => {
+	app.get('/trips/search', auth, (req, res) => {
 		Trip.find(req.query).then(
 			trips => {
 				res.status(200).send(trips);
@@ -23,7 +23,7 @@ module.exports = app => {
 		);
 	});
 
-	app.get('/trips/:id', (req, res) => {
+	app.get('/trips/:id', auth, (req, res) => {
 		Trip.findOne({ _id: req.params.id }).then(
 			trip => {
 				res.send(trip);
@@ -34,7 +34,7 @@ module.exports = app => {
 		);
 	});
 
-	app.post('/trips', (req, res) => {
+	app.post('/trips', auth, (req, res) => {
 		const {
 			description,
 			destinationCity,
@@ -67,7 +67,7 @@ module.exports = app => {
 		);
 	});
 
-	app.patch('/trips/:id', (req, res) => {
+	app.patch('/trips/:id', auth, (req, res) => {
 		Trip.findOneAndUpdate({ _id: req.params.id }, req.body).then(
 			trip => {
 				res.status(200).send(trip);
@@ -78,7 +78,7 @@ module.exports = app => {
 		);
 	});
 
-	app.delete('/trips/:id', (req, res) => {
+	app.delete('/trips/:id', auth, (req, res) => {
 		Trip.findOneAndDelete({ _id: req.params.id }).then(
 			() => {
 				res.send(204);

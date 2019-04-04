@@ -16,7 +16,7 @@ module.exports = app => {
 	 *       200:
 	 *         description: users
 	 */
-	app.get('/users', (req, res) => {
+	app.get('/users', auth, (req, res) => {
 		User.find().populate('tripList').populate('requestList').then(
 			users => {
 				res.status(200).send(users);
@@ -49,7 +49,7 @@ module.exports = app => {
 	 *       200:
 	 *         description: users
 	 */
-	app.get('/users/:id', (req, res) => {
+	app.get('/users/:id', auth, (req, res) => {
 		User.findOne({ _id: req.params.id }).then(
 			user => {
 				res.send(user);
@@ -60,7 +60,7 @@ module.exports = app => {
 		);
 	});
 
-	app.get('/users/:id/trips', (req, res) => {
+	app.get('/users/:id/trips', auth, (req, res) => {
 		Trip.find({ creator: req.params.id }).then(
 			trips => {
 				res.send(trips);
@@ -107,7 +107,7 @@ module.exports = app => {
 			});
 	});
 
-	app.patch('/users/:id', (req, res) => {
+	app.patch('/users/:id', auth, (req, res) => {
 		User.findOneAndUpdate({ _id: req.params.id }, req.body).then(
 			user => {
 				res.status(200).send(user);

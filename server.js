@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 const corsOptions = {
-	exposedHeaders: 'Authorization',
+	exposedHeaders: 'x-auth',
 };
 app.use(cors(corsOptions));
 

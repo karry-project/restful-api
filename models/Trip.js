@@ -75,10 +75,6 @@ TripSchema.methods.toJSON = function () {
 	const tripObject = trip.toObject()
 
 	delete tripObject._id
-	delete tripObject.owner.password
-	delete tripObject.owner.tokens
-	delete tripObject.owner.tripList
-	delete tripObject.owner.requestList
 
 	return tripObject;
 };

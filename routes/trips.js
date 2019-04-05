@@ -1,4 +1,5 @@
 const { Trip } = require('./../models/Trip');
+const { auth } = require('../middlewares/authenticate');
 
 module.exports = app => {
 	app.get('/trips', auth, (req, res) => {

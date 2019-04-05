@@ -61,6 +61,7 @@ test('Should retrieve all trips', async () => {
     await request(server)
         .get('/trips')
         .set('x-auth', userOne.tokens[0].token)
+        .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200);
 

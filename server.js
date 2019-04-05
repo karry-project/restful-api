@@ -7,8 +7,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const socketio = require('socket.io');
 const bodyParser = require('body-parser');
+const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./documentation.json');
 
 const config = require('./config/config');
 
@@ -17,10 +17,10 @@ const config = require('./config/config');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false }).then(
 	() => {
-		console.log('Successfully connected to database');
+		//console.log('Successfully connected to database');
 	},
 	err => {
-		console.log('Failed to connect to database', err);
+		//console.log('Failed to connect to database', err);
 	}
 );
 
@@ -37,14 +37,41 @@ app.use(morgan('combined', { stream: accessLogStream }))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
-app.use(cors());
+const corsOptions = {
+	exposedHeaders: 'Authorization',
+};
+app.use(cors(corsOptions));
+
 app.use(function (req, res, next) {
-	res.setHeader("Content-Type", "application/json");
+	if (!req.url.indexOf("documentation")) {
+		res.setHeader("Content-Type", "application/json");
+	}
 	res.setHeader("Access-Control-Allow-Origin", "*");
 	next();
 });
 
-app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+const swaggerDefinition = {
+	info: {
+		title: 'Example Swagger API',
+		version: '1.0.0',
+		description: 'This is the Example API documentation and is using the OpenAPI spec.',
+	},
+	host: `localhost:3000`,
+	basePath: '/',
+};
+
+const swaggerOptions = {
+	swaggerDefinition: swaggerDefinition,
+	apis: [
+		'./routes/users.js',
+		'./routes/trips.js',
+		'./models/User.js',
+	],
+};
+
+const swaggerSpec = swaggerJsdoc(swaggerOptions);
+
+app.use('/documentation', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 require('./routes/chat')(io);
 require('./routes/users')(app);

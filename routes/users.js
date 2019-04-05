@@ -6,15 +6,19 @@ const upload = require('./../config/upload');
 const { sendNewUserEmail, sendDeletedUserEmail } = require('./../emails/accounts')
 
 module.exports = app => {
+
 	/**
 	 * @swagger
 	 * /users:
 	 *   get:
-	*	summary: Returns a list of users.
 	 *     description: Should retrieve a list of all the users
 	 *     responses:
 	 *       200:
-	 *         description: users
+	 *         description: List of users
+	 * 		 400:
+	 *         description: Error while trying to retrieve the list of users
+	 * 		 401:
+	 *         description: Please provide a authorization token
 	 */
 	app.get('/users', auth, (req, res) => {
 		User.find().populate('tripList').populate('requestList').then(
@@ -31,10 +35,14 @@ module.exports = app => {
 	 * @swagger
 	 * /users/me:
 	 *   get:
-	 *     description: Should retrieve a list of all the users
+	 *     description: Should retrieve informations about the current user
 	 *     responses:
 	 *       200:
-	 *         description: users
+	 *         description: Current user's informations
+	 * 		 400:
+	 *         description: Error trying to get user's informations
+	 * 		 401:
+	 *         description: Please provide a authorization token
 	 */
 	app.get('/users/me', auth, (req, res) => {
 		res.status(200).send(req.user);
@@ -42,12 +50,16 @@ module.exports = app => {
 
 	/**
 	 * @swagger
-	 * /users:
+	 * /users/{id}:
 	 *   get:
-	 *     description: Should retrieve a list of all the users
+	 *     description: Should retrieve informations  one user
 	 *     responses:
 	 *       200:
-	 *         description: users
+	 *         description: User's informations
+	 * 		 400:
+	 *         description: Error trying to reach all data
+	 * 		 401:
+	 *         description: Please provide a authorization token
 	 */
 	app.get('/users/:id', auth, (req, res) => {
 		User.findOne({ _id: req.params.id }).then(
@@ -60,6 +72,12 @@ module.exports = app => {
 		);
 	});
 
+	/**
+	 * @swagger
+	 * /users/{id}/trips:
+	 *   get:
+	 *     description: Should retrieve all the trips about one user
+	 */
 	app.get('/users/:id/trips', auth, (req, res) => {
 		Trip.find({ creator: req.params.id }).then(
 			trips => {
@@ -71,6 +89,12 @@ module.exports = app => {
 		);
 	});
 
+	/**
+	 * @swagger
+	 * /users/register:
+	 *   post:
+	 *     description: Should let a user register into the app by returning a token
+	 */
 	app.post('/users/register', (req, res) => {
 		const user = new User({
 			firstname: req.body.firstname,
@@ -93,6 +117,12 @@ module.exports = app => {
 			});
 	});
 
+	/**
+	 * @swagger
+	 * /users/login:
+	 *   post:
+	 *     description: Should let a user login into the app by returning a token
+	 */
 	app.post('/users/login', (req, res) => {
 		User.findByCredentials(req.body.email, req.body.password)
 			.then(user =>
@@ -107,6 +137,12 @@ module.exports = app => {
 			});
 	});
 
+	/**
+	 * @swagger
+	 * /users/{id}:
+	 *   patch:
+	 *     description: Should update informations about a user
+	 */
 	app.patch('/users/:id', auth, (req, res) => {
 		User.findOneAndUpdate({ _id: req.params.id }, req.body).then(
 			user => {
@@ -118,6 +154,12 @@ module.exports = app => {
 		);
 	});
 
+	/**
+	 * @swagger
+	 * /users/{id}:
+	 *   delete:
+	 *     description: Should delete a token of the current user
+	 */
 	app.delete('/users/me/token', auth, (req, res) => {
 		req.user.removeToken(req.token).then(
 			user => {
@@ -129,6 +171,12 @@ module.exports = app => {
 		);
 	});
 
+	/**
+	 * @swagger
+	 * /users/{id}:
+	 *   delete:
+	 *     description: Should delete the current user
+	 */
 	app.delete('/users/:id', auth, (req, res) => {
 		User.findOneAndDelete({ _id: req.params.id }).then(
 			user => {

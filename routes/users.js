@@ -3,10 +3,9 @@ const { Trip } = require('./../models/Trip');
 const { auth } = require('../middlewares/authenticate');
 const upload = require('./../config/upload');
 
-const { sendNewUserEmail, sendDeletedUserEmail } = require('./../emails/accounts')
+const { sendNewUserEmail, sendDeletedUserEmail } = require('./../emails/accounts');
 
 module.exports = app => {
-
 	/**
 	 * @swagger
 	 * /users:
@@ -21,14 +20,17 @@ module.exports = app => {
 	 *         description: Please provide a authorization token
 	 */
 	app.get('/users', auth, (req, res) => {
-		User.find().populate('tripList').populate('requestList').then(
-			users => {
-				res.status(200).send(users);
-			},
-			err => {
-				res.status(400).send(err);
-			}
-		);
+		User.find()
+			.populate('tripList')
+			.populate('requestList')
+			.then(
+				users => {
+					res.status(200).send(users);
+				},
+				err => {
+					res.status(400).send(err);
+				}
+			);
 	});
 
 	/**
@@ -46,7 +48,7 @@ module.exports = app => {
 	 */
 	app.get('/users/me', auth, (req, res) => {
 		res.status(200).send(req.user);
-	})
+	});
 
 	/**
 	 * @swagger
@@ -107,7 +109,7 @@ module.exports = app => {
 		user.save()
 			.then(() => user.generateAuthToken())
 			.then(token => {
-				sendNewUserEmail(user.email, user.firstname)
+				sendNewUserEmail(user.email, user.firstname);
 				res.header('x-auth', token)
 					.status(201)
 					.send(user);
@@ -144,7 +146,7 @@ module.exports = app => {
 	 *     description: Should update informations about a user
 	 */
 	app.patch('/users/:id', auth, (req, res) => {
-		User.findOneAndUpdate({ _id: req.params.id }, req.body).then(
+		User.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true }).then(
 			user => {
 				res.status(200).send(user);
 			},
@@ -180,7 +182,7 @@ module.exports = app => {
 	app.delete('/users/:id', auth, (req, res) => {
 		User.findOneAndDelete({ _id: req.params.id }).then(
 			user => {
-				sendDeletedUserEmail(user.email, user.firstname)
+				sendDeletedUserEmail(user.email, user.firstname);
 				res.send(user);
 			},
 			err => {

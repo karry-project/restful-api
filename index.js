@@ -1,8 +1,10 @@
-const server = require('./server');
-const keys = require('./config/keys');
+#!/usr/bin/env nodejs
+
+const server = require("./server");
+const keys = require("./config/keys");
 
 const port = process.env.PORT || keys.app.defaultPort;
 
 server.listen(port, () => {
-	console.log(`Successfully lunched server on port ${port}`);
+  console.log(`Successfully lunched server on port ${port}`);
 });

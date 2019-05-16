@@ -4,6 +4,10 @@ const auth = require('./../middlewares/auth');
 
 router.use('*', auth, (req, res, next) => next());
 
+// CUSTOM
+router.get('/me/trips', (req, res) => findTrips(req, res));
+router.post('/:id/search', (req, res) => saveSearch(req, res));
+
 // CRUD
 const findAll = require('./../controllers/users/findAll');
 const findMe = require('./../controllers/users/findMe');
@@ -19,8 +23,5 @@ router.get('/me', (req, res) => findMe(req, res));
 router.patch('/:id', (req, res) => updateOne(req, res));
 router.delete('/:id', (req, res) => removeOne(req, res));
 
-// CUSTOM
-router.get('/:id/trips', (req, res) => findTrips(req, res));
-router.post('/:id/search', (req, res) => saveSearch(req, res));
 
 module.exports = router;

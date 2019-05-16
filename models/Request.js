@@ -5,8 +5,20 @@ const RequestSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    weight: {
-        type: Number,
+    reward: {
+        type: String,
+        required: true
+    },
+    estimatePrice: {
+        type: String,
+        required: true
+    },
+    estimateVolume: {
+        type: String,
+        required: true
+    },
+    estimateWeight: {
+        type: String,
         required: true
     },
     message: {

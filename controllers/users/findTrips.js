@@ -1,7 +1,7 @@
 const Trip = require('./../../models/Trip');
 
 module.exports = (req, res) => {
-	Trip.find({ owner: req.params.id }).populate('joinList').then(
+	Trip.find({ owner: req.user._id }).populate('joinList').populate('requestList').then(
 		trips => {
 			res.send(trips);
 		},

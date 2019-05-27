@@ -62,6 +62,11 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: false
 	},
+	ratings: {
+		type: String,
+		required: false,
+		default: null
+	},
 	tokens: [{
 		access: {
 			type: String,

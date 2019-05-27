@@ -17,6 +17,11 @@ const UserSchema = new mongoose.Schema({
 		trim: true,
 		required: true
 	},
+	description: {
+		type: String,
+		default: "Vous n'avez pas encore de description",
+		trim: true
+	},
 	phone: {
 		type: String,
 		required: true
@@ -39,7 +44,7 @@ const UserSchema = new mongoose.Schema({
 	profilePicture: {
 		type: String,
 		required: true,
-		default: function() {
+		default: function () {
 			let id = Math.floor(Math.random() * 6) + 1;
 			return `${keys.app.baseUrl}/uploads/default_${id}.png`;
 		}
@@ -57,6 +62,11 @@ const UserSchema = new mongoose.Schema({
 		type: String,
 		required: false
 	},
+	ratings: {
+		type: String,
+		required: false,
+		default: null
+	},
 	tokens: [{
 		access: {
 			type: String,
@@ -68,15 +78,15 @@ const UserSchema = new mongoose.Schema({
 		}
 	}]
 }, {
-	toObject: {
-		virtuals: true
-	},
-	toJSON: {
-		virtuals: true
-	}
-});
+		toObject: {
+			virtuals: true
+		},
+		toJSON: {
+			virtuals: true
+		}
+	});
 
-UserSchema.virtual('fullname').get(function() {
+UserSchema.virtual('fullname').get(function () {
 	return this.firstname + ' ' + this.lastname;
 });
 
@@ -92,23 +102,24 @@ UserSchema.virtual('requestList', {
 	foreignField: 'creator'
 });
 
-UserSchema.methods.toJSON = function() {
+UserSchema.methods.toJSON = function () {
 	const user = this;
 	const userObject = user.toObject();
 
 	delete userObject.password;
+	delete userObject.tokens;
 
 	return userObject;
 };
 
-UserSchema.methods.generateAuthToken = function() {
+UserSchema.methods.generateAuthToken = function () {
 	const user = this;
 	const access = 'auth';
 	const token = jwt
 		.sign({
-				_id: user._id.toHexString(),
-				access
-			},
+			_id: user._id.toHexString(),
+			access
+		},
 			keys.app.jwt.secret
 		)
 		.toString();
@@ -116,7 +127,7 @@ UserSchema.methods.generateAuthToken = function() {
 	return user.save().then(() => token);
 };
 
-UserSchema.methods.removeToken = function(token) {
+UserSchema.methods.removeToken = function (token) {
 	const user = this;
 	return user.updateOne({
 		$pull: {
@@ -126,7 +137,7 @@ UserSchema.methods.removeToken = function(token) {
 };
 
 
-UserSchema.methods.saveSearch = function(destinationCity, arrivalCity) {
+UserSchema.methods.saveSearch = function (destinationCity, arrivalCity) {
 	const user = this;
 	console.log(user)
 	return user.updateOne({
@@ -136,14 +147,14 @@ UserSchema.methods.saveSearch = function(destinationCity, arrivalCity) {
 	});
 };
 
-UserSchema.statics.findByEmail = function(email) {
+UserSchema.statics.findByEmail = function (email) {
 	const User = this;
 	return User.findOne({
 		email: email
 	});
 };
 
-UserSchema.statics.findByToken = function(token) {
+UserSchema.statics.findByToken = function (token) {
 	const User = this;
 	let decoded;
 	try {
@@ -159,7 +170,7 @@ UserSchema.statics.findByToken = function(token) {
 	});
 };
 
-UserSchema.statics.findByCredentials = function(email, password) {
+UserSchema.statics.findByCredentials = function (email, password) {
 	const User = this;
 	return User.findOne({ email }).then(user => {
 		if (!user) {
@@ -178,7 +189,7 @@ UserSchema.statics.findByCredentials = function(email, password) {
 	});
 };
 
-UserSchema.pre('save', function(next) {
+UserSchema.pre('save', function (next) {
 	const user = this;
 	if (user.isModified('password')) {
 		bcrypt.genSalt(10, (err, salt) => {

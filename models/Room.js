@@ -7,6 +7,9 @@ const RoomSchema = new mongoose.Schema({
     userId: {
         type: mongoose.Schema.Types.ObjectId
     },
+    requestId: {
+        type: mongoose.Schema.Types.ObjectId
+    },
     messages: [
         {
             content: {

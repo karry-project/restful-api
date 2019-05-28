@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const TripSchema = new mongoose.Schema(
   {
@@ -44,19 +44,23 @@ const TripSchema = new mongoose.Schema(
       type: Number,
       required: true
     },
+    carryVolume: {
+      type: Number,
+      required: true
+    },
     carryTaxe: {
       type: Number,
       required: true
     },
     status: {
       type: String,
-      enum: ["waiting", "running", "done"],
-      default: "waiting"
+      enum: ['waiting', 'running', 'done'],
+      default: 'waiting'
     },
     owner: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref: "User"
+      ref: 'User'
     },
     created_at: {
       type: Date,
@@ -65,7 +69,7 @@ const TripSchema = new mongoose.Schema(
     joinList: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "User"
+        ref: 'User'
       }
     ]
   },
@@ -79,10 +83,10 @@ const TripSchema = new mongoose.Schema(
   }
 );
 
-TripSchema.virtual("requestList", {
-  ref: "Request",
-  localField: "_id",
-  foreignField: "tripId"
+TripSchema.virtual('requestList', {
+  ref: 'Request',
+  localField: '_id',
+  foreignField: 'tripId'
 });
 
 TripSchema.methods.toJSON = function() {
@@ -91,5 +95,5 @@ TripSchema.methods.toJSON = function() {
   return tripObject;
 };
 
-const Trip = mongoose.model("Trip", TripSchema);
+const Trip = mongoose.model('Trip', TripSchema);
 module.exports = Trip;

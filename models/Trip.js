@@ -42,7 +42,7 @@ const TripSchema = new mongoose.Schema(
     },
     carryMaxAmount: {
       type: Number,
-      required: true
+      required: false
     },
     carryVolume: {
       type: Number,

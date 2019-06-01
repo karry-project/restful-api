@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 const TripSchema = new mongoose.Schema(
   {
+    roundTrip: {
+      type: Boolean,
+      required: true
+    },
     description: {
       type: String,
       required: false,

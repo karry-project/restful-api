@@ -43,20 +43,12 @@ const RequestSchema = new mongoose.Schema({
     },
 }, {
         toObject: {
-            versionKey: false,
             virtuals: true
         },
         toJSON: {
-            versionKey: false,
             virtuals: true
         }
     });
-
-RequestSchema.virtual('room', {
-    ref: 'Room',
-    localField: '_id',
-    foreignField: 'requestId'
-});
 
 RequestSchema.methods.toJSON = function () {
     const request = this;

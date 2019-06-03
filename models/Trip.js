@@ -35,10 +35,6 @@ const TripSchema = new mongoose.Schema({
 		lowercase: true,
 		trim: true
 	},
-	endDate: {
-		type: String,
-		required: true
-	},
 	carryWeight: {
 		type: Number,
 		required: true

@@ -153,7 +153,6 @@ UserSchema.methods.removeToken = function (token) {
 
 UserSchema.methods.saveSearch = function (destinationCity, arrivalCity) {
 	const user = this;
-	console.log(user)
 	return user.updateOne({
 		$push: {
 			savedResearchs: { destinationCity, arrivalCity }

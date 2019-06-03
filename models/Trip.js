@@ -65,6 +65,10 @@ const TripSchema = new mongoose.Schema({
 		type: Date,
 		default: Date.now
 	},
+	isRound: {
+		type: Boolean,
+		required: true
+	},
 	joinList: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User'

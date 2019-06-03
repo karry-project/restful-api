@@ -61,7 +61,7 @@ const TripSchema = new mongoose.Schema({
 		required: true,
 		ref: 'User'
 	},
-	created_at: {
+	createdAt: {
 		type: Date,
 		default: Date.now
 	},

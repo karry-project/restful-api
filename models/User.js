@@ -39,8 +39,7 @@ const UserSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String,
-		minlength: 6,
-		select: false
+		minlength: 6
 	},
 	profilePicture: {
 		type: String,
@@ -81,8 +80,7 @@ const UserSchema = new mongoose.Schema({
 				type: String,
 				required: true
 			}
-		}],
-		select: false
+		}]
 	}
 }, {
 		toObject: {

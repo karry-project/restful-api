@@ -1,6 +1,16 @@
 const mongoose = require('mongoose');
 
 const ReviewSchema = new mongoose.Schema({
+    fromUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
+    toUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    },
     title: {
         type: String,
         required: true
@@ -14,15 +24,15 @@ const ReviewSchema = new mongoose.Schema({
         trim: true
     }
 }, {
-    toObject: {
-        versionKey: false,
-        virtuals: true
-    },
-    toJSON: {
-        versionKey: false,
-        virtuals: true
-    }
-});
+        toObject: {
+            versionKey: false,
+            virtuals: true
+        },
+        toJSON: {
+            versionKey: false,
+            virtuals: true
+        }
+    });
 
 
 ReviewSchema.methods.toJSON = function () {

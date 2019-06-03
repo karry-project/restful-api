@@ -52,11 +52,14 @@ const UserSchema = new mongoose.Schema({
 	savedResearchs: [{
 		destinationCity: {
 			type: String
-
 		},
 		arrivalCity: {
 			type: String
 		},
+	}],
+	reviews: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'Review'
 	}],
 	firebaseId: {
 		type: String,

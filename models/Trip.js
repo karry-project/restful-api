@@ -43,6 +43,10 @@ const TripSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
+	arrivalDate: {
+		type: String,
+		required: true
+	},
 	carryTaxe: {
 		type: Number,
 		required: true
@@ -66,13 +70,13 @@ const TripSchema = new mongoose.Schema({
 		ref: 'User'
 	}]
 }, {
-	toObject: {
-		virtuals: true
-	},
-	toJSON: {
-		virtuals: true
-	}
-});
+		toObject: {
+			virtuals: true
+		},
+		toJSON: {
+			virtuals: true
+		}
+	});
 
 TripSchema.virtual('requestList', {
 	ref: 'Request',
@@ -80,7 +84,7 @@ TripSchema.virtual('requestList', {
 	foreignField: 'tripId'
 });
 
-TripSchema.methods.toJSON = function() {
+TripSchema.methods.toJSON = function () {
 	const trip = this;
 	const tripObject = trip.toObject();
 	return tripObject;

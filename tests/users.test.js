@@ -34,7 +34,8 @@ const userTwo = {
 		token: jwt.sign({ _id: userTwoId, access: 'auth' }, process.env.JWT_SECRET)
 	}]
 }
-
+describe('Server', () => {
+})
 beforeAll(async () => {
 	await User.deleteMany()
 	await new User(userOne).save()

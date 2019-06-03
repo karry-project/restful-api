@@ -130,9 +130,5 @@ test('Should delete a trip', async () => {
         //.expect('Content-Type', /json/)
         .expect(204);
 
-    // What is the error message if cant update
-    // What is the error message if wrong object id
-    // What is the error message if no auth header provided
-
 
 });

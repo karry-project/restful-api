@@ -6,6 +6,7 @@ router.use('*', auth, (req, res, next) => next());
 
 // CUSTOM
 router.get('/me/trips', (req, res) => findTrips(req, res));
+router.get('/me/requests', (req, res) => findRequests(req, res));
 router.post('/:id/search', (req, res) => saveSearch(req, res));
 
 // CRUD
@@ -22,6 +23,5 @@ router.get('/:id', (req, res) => findOne(req, res));
 router.get('/me', (req, res) => findMe(req, res));
 router.patch('/:id', (req, res) => updateOne(req, res));
 router.delete('/:id', (req, res) => removeOne(req, res));
-
 
 module.exports = router;

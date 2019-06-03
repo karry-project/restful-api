@@ -91,10 +91,6 @@ TripSchema.virtual('requestList', {
 TripSchema.methods.toJSON = function () {
 	const trip = this;
 	const tripObject = trip.toObject();
-
-	delete userObject.tokens;
-	delete userObject.password;
-
 	return tripObject;
 };
 

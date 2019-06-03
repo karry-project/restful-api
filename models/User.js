@@ -57,6 +57,16 @@ const UserSchema = new mongoose.Schema({
 			type: String
 		},
 	}],
+	createdTripsCount: {
+		required: false,
+		type: Number,
+		default: 0
+	},
+	joinedTripsCount: {
+		required: false,
+		type: Number,
+		default: 0
+	},
 	reviews: [{
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'Review'
@@ -110,6 +120,8 @@ UserSchema.virtual('requestList', {
 UserSchema.methods.toJSON = function () {
 	const user = this;
 	const userObject = user.toObject();
+
+	delete userObject.tokens
 
 	return userObject;
 };

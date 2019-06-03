@@ -21,6 +21,7 @@ const removeOne = require('./../controllers/trips/removeOne');
 router.get('/', (req, res) => findAll(req, res));
 router.get('/:id', (req, res) => findOne(req, res));
 router.post('/', (req, res) => createOne(req, res));
+router.post('/:id/join', (req, res) => joinOne(req, res));
 router.patch('/:id', (req, res) => updateOne(req, res));
 router.delete('/:id', (req, res) => removeOne(req, res));
 

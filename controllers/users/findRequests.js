@@ -1,7 +1,7 @@
 const Request = require('./../../models/Request');
 
 module.exports = (req, res) => {
-  Request.find({ creator: req.user._id }).populate('creator').then(
+  Request.find({ creator: req.user._id }).then(
     requests => {
       res.send(requests);
     },

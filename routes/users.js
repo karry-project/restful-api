@@ -4,20 +4,18 @@ const auth = require('./../middlewares/auth');
 
 router.use('*', auth, (req, res, next) => next());
 
-// CUSTOM
-router.get('/me/trips', (req, res) => findTrips(req, res));
-router.get('/me/requests', (req, res) => findRequests(req, res));
-router.post('/:id/search', (req, res) => saveSearch(req, res));
-
-// CRUD
 const findAll = require('./../controllers/users/findAll');
 const findMe = require('./../controllers/users/findMe');
 const findOne = require('./../controllers/users/findOne');
 const findTrips = require('./../controllers/users/findTrips');
+const findRequests = require('./../controllers/users/findRequests');
 const updateOne = require('./../controllers/users/updateOne');
 const removeOne = require('./../controllers/users/removeOne');
 const saveSearch = require('./../controllers/users/saveSearch');
 
+router.get('/me/trips', (req, res) => findTrips(req, res));
+router.get('/me/requests', (req, res) => findRequests(req, res));
+router.post('/:id/search', (req, res) => saveSearch(req, res));
 router.get('/', (req, res) => findAll(req, res));
 router.get('/:id', (req, res) => findOne(req, res));
 router.get('/me', (req, res) => findMe(req, res));

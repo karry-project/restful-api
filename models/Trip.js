@@ -14,21 +14,7 @@ const TripSchema = new mongoose.Schema({
 		lowercase: true,
 		trim: true
 	},
-	destinationCountry: {
-		type: String,
-		required: true,
-		minlength: 1,
-		lowercase: true,
-		trim: true
-	},
 	departureCity: {
-		type: String,
-		required: true,
-		minlength: 1,
-		lowercase: true,
-		trim: true
-	},
-	departureCountry: {
 		type: String,
 		required: true,
 		minlength: 1,

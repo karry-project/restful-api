@@ -39,7 +39,8 @@ const UserSchema = new mongoose.Schema({
 	},
 	password: {
 		type: String,
-		minlength: 6
+		minlength: 6,
+		select: false
 	},
 	profilePicture: {
 		type: String,
@@ -70,16 +71,19 @@ const UserSchema = new mongoose.Schema({
 		required: false,
 		default: null
 	},
-	tokens: [{
-		access: {
-			type: String,
-			required: true
-		},
-		token: {
-			type: String,
-			required: true
-		}
-	}]
+	tokens: {
+		type: [{
+			access: {
+				type: String,
+				required: true
+			},
+			token: {
+				type: String,
+				required: true
+			}
+		}],
+		select: false
+	}
 }, {
 		toObject: {
 			virtuals: true
@@ -108,9 +112,6 @@ UserSchema.virtual('requestList', {
 UserSchema.methods.toJSON = function () {
 	const user = this;
 	const userObject = user.toObject();
-
-	delete userObject.password;
-	delete userObject.tokens;
 
 	return userObject;
 };

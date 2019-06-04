@@ -17,27 +17,29 @@ const RoomSchema = new mongoose.Schema({
                 required: true
             },
             date: {
-                type: Date,
-                default: Date.now
+                type: String
+            },
+            from: {
+                type: String
             }
         }
     ]
 }, {
-    toObject: {
-        versionKey: false,
-        virtuals: true
-    },
-    toJSON: {
-        versionKey: false,
-        virtuals: true
-    }
-});
+        toObject: {
+            versionKey: false,
+            virtuals: true
+        },
+        toJSON: {
+            versionKey: false,
+            virtuals: true
+        }
+    });
 
 
 RoomSchema.methods.toJSON = function () {
     const room = this;
     const roomObject = room.toObject();
-    
+
     delete roomObject._id;
 
     return roomObject;

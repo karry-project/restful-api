@@ -1,31 +1,37 @@
+const Room = require('./../models/Room');
+
 module.exports = io => {
 
     console.log("launch io setup");
+    var room = null;
 
     io.on('connection', (socket) => {
         console.log('user connected');
 
-        // User join chat
-        socket.on('join', (data) => {
-            console.log(`${data.userNickname} : has joined the chat `);
-            socket.broadcast.emit('userjoinedthechat', `${data.userNickname} : has joined the chat `);
+        socket.on('join', (roomId) => {
+            room = roomId
+            socket.join(room);
+            console.log(`Someone connect to${room}`);
+            socket.broadcast.to(room).emit('userjoinedthechat', `Someone : has joined the chat `);
         });
 
         // User send message
         socket.on('sendmessage', (senderNickname, messageContent) => {
             console.log(`${senderNickname} :${messageContent}`);
-            const message = {
-                "message": messageContent,
-                "senderNickname": senderNickname
-            };
+            const message = { "message": messageContent, "date": Date.now(), from: senderNickname };
+            console.log(message)
+            // Find room from roomId and save message
+            /*
+            Room.findOneAndUpdate({ _id: roomId }, { $push: { messages: message}}).then(() => { console.log('message save') }, () => { console.log('erreur') })
+            */
             socket.broadcast.emit('message', message);
-            socket.emit('message', message);
+            socket.to(room).emit('message', message);
         });
 
         // User disconnected
         socket.on('disconnect', () => {
             console.log('user has left ');
-            socket.broadcast.emit("userdisconnect", ' user has left');
+            socket.broadcast.to(room).emit("userdisconnect", ' user has left');
         });
     });
 };

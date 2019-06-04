@@ -29,6 +29,11 @@ const TripSchema = new mongoose.Schema({
 		type: Number,
 		required: true
 	},
+	carryVolume: {
+		type: String,
+		enum: ['1', '2', '3'],
+		default: 'waiting',
+	},
 	arrivalDate: {
 		type: String,
 		required: true

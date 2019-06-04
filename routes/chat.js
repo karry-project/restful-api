@@ -1,13 +1,9 @@
 const Room = require('./../models/Room');
 
 module.exports = io => {
-
-    console.log("launch io setup");
     var room = null;
 
     io.on('connection', (socket) => {
-        console.log('user connected');
-
         socket.on('join', (roomId) => {
             room = roomId
             socket.join(room);
@@ -21,10 +17,7 @@ module.exports = io => {
             const message = { "message": messageContent, "date": Date.now(), from: senderNickname };
             console.log(message)
             // Find room from roomId and save message
-            /*
-            Room.findOneAndUpdate({ _id: roomId }, { $push: { messages: message}}).then(() => { console.log('message save') }, () => { console.log('erreur') })
-            */
-            socket.broadcast.emit('message', message);
+            Room.findOneAndUpdate({ _id: room }, { $push: { messages: message } }).then(() => { console.log('message save') }, () => { console.log('erreur') })
             socket.to(room).emit('message', message);
         });
 

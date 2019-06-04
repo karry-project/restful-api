@@ -1,5 +1,6 @@
 const http = require('http');
 const express = require('express');
+const socketio = require('socket.io');
 
 // Database
 require('./database/connect.js');
@@ -7,12 +8,16 @@ require('./database/connect.js');
 // App
 const app = express();
 const server = http.createServer(app);
+const io = socketio(server);
 
 // Firebase
 require('./lib/notifications').initializeApp();
 
 // Scheduler
 require('./lib/scheduler.js');
+
+// Chat
+require('./routes/chat')(io);
 
 // Middlewares
 require('./middlewares/logger.js')(app);

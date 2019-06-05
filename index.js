@@ -1,7 +1,6 @@
 #!/usr/bin/env nodejs
 const server = require("./server");
 const keys = require("./config/keys");
-
 const port = process.env.PORT || keys.app.defaultPort;
 
 server.listen(port, () => {

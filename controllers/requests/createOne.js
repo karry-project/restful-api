@@ -10,7 +10,7 @@ module.exports = (req, res) => {
     request => {
       Trip.findOne({ _id: request.tripId }).then(
         trip => {
-          User.findOne({ _id: trip.creator._id }).then(tripOwner => {
+          User.findOne({ _id: trip.creator }).then(tripOwner => {
             Request.findOneAndUpdate(
               { _id: request._id },
               {

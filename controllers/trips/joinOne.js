@@ -3,7 +3,6 @@ const Trip = require('./../../models/Trip');
 const User = require('./../../models/User');
 
 module.exports = (req, res) => {
-    console.log('Trying to join trip')
     Trip.findOneAndUpdate({
         _id: req.params.id
     }, {
@@ -12,7 +11,6 @@ module.exports = (req, res) => {
             }
         }).then(
             trip => {
-                console.log('Trying to join trip', trip)
                 User.findOneAndUpdate({
                     _id: req.user.id
                 }, {
@@ -20,7 +18,6 @@ module.exports = (req, res) => {
                             joinedTripsCount: 1
                         }
                     }).then(() => {
-                        console.log('Trying to join trip')
                         res.status(200).send(trip);
                     }, err => {
                         res.status(400).send(err);

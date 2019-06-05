@@ -21,26 +21,10 @@ This is the repository dedicated to the BringAThing API
     - Docs: https://mongoosejs.com/docs/guide.html
 
 
-# API Endpoints
+# API Documentation
 
-## Users Entity Endpoints 👤
+The API documentatoin as been created using Postman, it is avaible at this link :
+https://documenter.getpostman.com/view/3178107/S1LpZBVZ?version=latest
 
-HTTP Methods | URI | Description | Protected
------------- | ------------- | ------------- | -------------
-GET | /users | Retrieve a list of all the registered users | ✔
-GET | /users/id | Retrieve all the informations about a specific user | ✔
-GET | /users/me | Retrieve informations about the user that ask them | ✔
-POST | /users | Register a new user | ❌
-POST | /users/login | Allow a user to login | ❌
-DELETE | /users/token | Delete a token from a user | ✔
-
-## Trips Entity Endpoints ✈
-
-HTTP Methods | URI | Description | Protected
------------- | ------------- | ------------- | -------------
-GET | /trips | Retrieve a list of all the trips | ✔
-GET | /trips/id | Retrieve all the informations about a specific event | ✔
-GET | /trips/search | Retrieve all trips that match the get params given | ✔
-POST | /trips | Register a new event | ✔
-PATCH | /trips/id | Update informations about a specific event | ✔
-DELETE | /trips/id | Delete all the information about a specific event | ✔
+Also if you want to work with the existings requests you can import them all in Postman by clicking on `Import > Import from link`, then past this link:
+https://www.getpostman.com/collections/6bec41c6ead74a17e315

@@ -1,85 +1,31 @@
-const { Trip } = require('./../models/Trip');
+const express = require('express');
 
-module.exports = app => {
-  app.get('/trips', (req, res) => {
-    Trip.find().then(
-      trips => {
-        res.status(200).send({ trips });
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
+const router = express.Router();
+const auth = require('./../middlewares/auth');
 
-  app.get('/trips/search', (req, res) => {
-    Trip.find(req.query).then(
-      trips => {
-        res.status(200).send({ trips });
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
+router.use('*', auth, (req, res, next) => next());
 
-  app.get('/trips/:id', (req, res) => {
-    Trip.find({ _id: req.params.id }).then(
-      trip => {
-        res.send({ trip });
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
+// CUSTOM
+const findSearch = require('./../controllers/trips/findSearch');
+const joinOne = require('./../controllers/trips/joinOne');
 
-  app.post('/trips', (req, res) => {
-    const {
-      description,
-      destinationCity,
-      destinationCountry,
-      carryWeight,
-      carryMaxAmount,
-      carryTaxe
-    } = req.body;
-    const trip = new Trip({
-      description,
-      destinationCity,
-      destinationCountry,
-      carryWeight,
-      carryMaxAmount,
-      carryTaxe
-    });
-    trip.save().then(
-      () => {
-        res.status(201).send({ trip });
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
+router.get('/search', (req, res) => findSearch(req, res));
+router.post('/:id/join', (req, res) => joinOne(req, res));
 
-  app.patch('/trips/:id', (req, res) => {
-    Trip.findOneAndUpdate({ _id: req.params.id }, req.body).then(
-      trip => {
-        res.status(201).send({ trip });
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
+// CRUD
+const findAll = require('./../controllers/trips/findAll');
+const findOne = require('./../controllers/trips/findOne');
+const createOne = require('./../controllers/trips/createOne');
+const updateOne = require('./../controllers/trips/updateOne');
+const removeOne = require('./../controllers/trips/removeOne');
 
-  app.delete('/trips/:id', (req, res) => {
-    Trip.findOneAndDelete({ _id: req.params.id }).then(
-      () => {
-        res.send(204);
-      },
-      err => {
-        res.status(400).send({ err });
-      }
-    );
-  });
-};
+router.get('/', (req, res) => findAll(req, res));
+router.get('/:id', (req, res) => findOne(req, res));
+router.post('/', (req, res) => createOne(req, res));
+router.post('/:id/join', (req, res) => joinOne(req, res));
+router.patch('/:id', (req, res) => updateOne(req, res));
+router.delete('/:id', (req, res) => removeOne(req, res));
+
+
+
+module.exports = router;

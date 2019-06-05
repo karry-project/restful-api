@@ -1,64 +1,71 @@
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
 
-const RequestSchema = new mongoose.Schema({
+const RequestSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     reward: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     estimatePrice: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     estimateVolume: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     estimateWeight: {
-        type: String,
-        required: true
+      type: String,
+      required: true
     },
     message: {
-        type: String,
-        trim: true
+      type: String,
+      trim: true
     },
     status: {
-        type: String,
-        enum: ['waiting', 'accepted', 'denied'],
-        default: 'waiting',
-
+      type: String,
+      enum: ['waiting', 'accepted', 'denied'],
+      default: 'waiting'
     },
     creator: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
     },
     toUser: {
-        type: mongoose.Schema.Types.ObjectId
+      type: mongoose.Schema.Types.ObjectId
     },
     tripId: {
-        type: mongoose.Schema.Types.ObjectId,
-        required: true,
-        ref: 'Trip'
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'Trip'
     },
-}, {
-        toObject: {
-            virtuals: true
-        },
-        toJSON: {
-            virtuals: true
-        }
-    });
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User'
+    }
+  },
+  {
+    toObject: {
+      virtuals: true
+    },
+    toJSON: {
+      virtuals: true
+    }
+  }
+);
 
-RequestSchema.methods.toJSON = function () {
-    const request = this;
-    const requestObject = request.toObject();
+RequestSchema.methods.toJSON = function() {
+  const request = this;
+  const requestObject = request.toObject();
 
-    return requestObject;
+  return requestObject;
 };
 
 const Request = mongoose.model('Request', RequestSchema);

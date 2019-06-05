@@ -1,10 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 const Request = require('./../../models/Request');
 const Room = require('./../../models/Room');
 const Trip = require('./../../models/Trip');
 
 module.exports = (req, res) => {
-	const request = new Request(req.body);
-	request.save().then(
+	const newReequest = new Request(req.body);
+	newReequest.save().then(
 		request => {
 			Trip.findOne({ _id: request.tripId }).then(
 				trip => {
@@ -15,14 +16,16 @@ module.exports = (req, res) => {
 						messages: []
 					});
 					room.save().then(
-						(room) => {
+						() => {
 							res.status(201).send(request);
 						},
 						err => {
 							res.status(400).send(err);
 						});
 				},
-				() => { })
+				(err) => {
+					res.status(400).send(err);
+				})
 		},
 		err => {
 			res.status(400).send(err);

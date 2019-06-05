@@ -10,6 +10,6 @@ module.exports = (req, res) => {
             })
         )
         .catch(err => {
-            res.status(401).send({ error: 'Wrong email or password' + err });
+            res.status(401).send({ error: `Wrong email or password${err}` });
         });
 };

@@ -12,7 +12,7 @@ module.exports = (req, res) => {
 						createdTripsCount: 1
 					}
 				}).then(
-					user => {
+					() => {
 						res.status(201).send(trip);
 					}, err => {
 						res.status(400).send(err);

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable func-names */
 const mongoose = require('mongoose');
 const validator = require('validator');
@@ -164,7 +165,7 @@ UserSchema.methods.saveSearch = function (destinationCity, arrivalCity) {
 UserSchema.statics.findByEmail = function (email) {
 	const User = this;
 	return User.findOne({
-		email: email
+		email
 	});
 };
 
@@ -207,7 +208,7 @@ UserSchema.pre('save', function (next) {
 	const user = this;
 	if (user.isModified('password')) {
 		bcrypt.genSalt(10, (err, salt) => {
-			bcrypt.hash(user.password, salt, (err, hash) => {
+			bcrypt.hash(user.password, salt, (_err, hash) => {
 				user.password = hash;
 				next();
 			});

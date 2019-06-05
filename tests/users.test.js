@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
 const request = require('supertest');
-const server = require('./../server');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const server = require('./../server');
 
 const { User } = require('./../models/User');
 

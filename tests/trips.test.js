@@ -1,7 +1,8 @@
+/* eslint-disable no-undef */
 const request = require('supertest');
-const server = require('./../server');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
+const server = require('./../server');
 
 
 const { User } = require('./../models/User');
@@ -70,7 +71,7 @@ test('Should retrieve all trips', async () => {
 // GET /trips/id
 test('Should retrieve one trip', async () => {
     await request(server)
-        .get('/trips/' + userOneId)
+        .get(`/trips/${userOneId}`)
         .set('x-auth', userOne.tokens[0].token)
         .expect('Content-Type', /json/)
         .expect(200);
@@ -102,7 +103,7 @@ test('Should create a new trip', async () => {
 // PATCH /tirps/id
 test('Should update a trip description', async () => {
     await request(server)
-        .patch('/trips/' + tripOneId)
+        .patch(`/trips/${tripOneId}`)
         .set('x-auth', userOne.tokens[0].token)
         .send({
             "description": "Last description was good but this one seems better ... at least for this test"
@@ -115,7 +116,7 @@ test('Should update a trip description', async () => {
 // GET /trips/id
 test('Should retrieve trips own by a user', async () => {
     await request(server)
-        .get('/users/' + userOneId + '/trips')
+        .get(`/users/${userOneId}/trips`)
         .set('x-auth', userOne.tokens[0].token)
         .expect('Content-Type', /json/)
         .expect(200);
@@ -125,9 +126,8 @@ test('Should retrieve trips own by a user', async () => {
 // DELETE /trips/id
 test('Should delete a trip', async () => {
     await request(server)
-        .delete('/trips/' + tripOneId)
+        .delete(`/trips/${tripOneId}`)
         .set('x-auth', userOne.tokens[0].token)
-        //.expect('Content-Type', /json/)
         .expect(204);
 
 

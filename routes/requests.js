@@ -1,10 +1,10 @@
 const express = require('express');
+
 const router = express.Router();
 const auth = require('./../middlewares/auth');
 
 router.use('*', auth, (req, res, next) => next());
 
-//CRUD
 const findAll = require('./../controllers/requests/findAll');
 const findOne = require('./../controllers/requests/findOne');
 const createOne = require('./../controllers/requests/createOne');

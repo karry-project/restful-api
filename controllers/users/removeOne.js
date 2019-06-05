@@ -1,6 +1,6 @@
 const User = require('./../../models/User');
 
-const { sendNewUserEmail, sendDeletedUserEmail } = require('./../../lib/email');
+const { sendDeletedUserEmail } = require('./../../lib/email');
 
 module.exports = (req, res) => {
 	User.findOneAndDelete({ _id: req.params.id }).then(

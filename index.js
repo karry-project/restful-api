@@ -1,5 +1,4 @@
 #!/usr/bin/env nodejs
-
 const server = require("./server");
 const keys = require("./config/keys");
 

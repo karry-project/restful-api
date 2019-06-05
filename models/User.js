@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 const validator = require('validator');
 const jwt = require('jsonwebtoken');
@@ -44,8 +45,8 @@ const UserSchema = new mongoose.Schema({
 	profilePicture: {
 		type: String,
 		required: true,
-		default: function () {
-			let id = Math.floor(Math.random() * 6) + 1;
+		default() {
+			const id = Math.floor(Math.random() * 6) + 1;
 			return `${keys.app.baseUrl}/uploads/default_${id}.png`;
 		}
 	},
@@ -102,7 +103,7 @@ const UserSchema = new mongoose.Schema({
 	});
 
 UserSchema.virtual('fullname').get(function () {
-	return this.firstname + ' ' + this.lastname;
+	return `${this.firstname} ${this.lastname}`;
 });
 
 UserSchema.virtual('tripList', {

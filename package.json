@@ -8,7 +8,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "lint": "eslint ."
   },
   "jest": {
     "testEnvironment": "node"
@@ -31,6 +32,10 @@
     "validator": "^10.11.0"
   },
   "devDependencies": {
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-import": "^2.17.3",
     "jest": "^24.8.0",
     "nodemon": "^1.19.0",
     "supertest": "^4.0.2"

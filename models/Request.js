@@ -1,3 +1,4 @@
+/* eslint-disable func-names */
 const mongoose = require('mongoose');
 
 const RequestSchema = new mongoose.Schema({
@@ -35,6 +36,9 @@ const RequestSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'User'
+    },
+    toUser: {
+        type: mongoose.Schema.Types.ObjectId
     },
     tripId: {
         type: mongoose.Schema.Types.ObjectId,

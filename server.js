@@ -1,3 +1,4 @@
+// Initialization
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
@@ -32,6 +33,7 @@ app.use('/rooms', require('./routes/rooms'));
 app.use('/reviews', require('./routes/reviews'));
 app.use('/requests', require('./routes/requests'));
 
-app.use(express.static(__dirname + '/public'));
+// Public Ressources
+app.use(express.static(`${__dirname}/public`));
 
 module.exports = server;

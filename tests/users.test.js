@@ -1,10 +1,10 @@
+/* eslint-disable no-undef */
 const request = require('supertest');
 const server = require('./../server');
 const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 
 const { User } = require('./../models/User');
-const { Trip } = require('./../models/Trip');
 
 const userOneId = new mongoose.Types.ObjectId()
 const userTwoId = new mongoose.Types.ObjectId()
@@ -79,7 +79,7 @@ test('Should retrieve current user', async () => {
 	}));
 });
 test('Should not retrieve current user without auth', async () => {
-	const response = await request(server)
+	await request(server)
 		.get('/users/me')
 		.expect('Content-Type', /json/)
 		.expect(401);
@@ -88,7 +88,7 @@ test('Should not retrieve current user without auth', async () => {
 // GET /users/id
 test('Should retrieve one user', async () => {
 	await request(server)
-		.get('/users/' + userOneId)
+		.get(`/users/${userOneId}`)
 		.set('x-auth', userOne.tokens[0].token)
 		.expect('Content-Type', /json/)
 		.expect(200);
@@ -135,7 +135,7 @@ test('Should not login a user with wrong password', async () => {
 // PATCH /users/id
 test('Should update a user firstname', async () => {
 	await request(server)
-		.patch('/users/' + userOneId)
+		.patch(`/users/${userOneId}`)
 		.set('x-auth', userOne.tokens[0].token)
 		.send({
 			"firstname": "Paulo"
@@ -147,7 +147,7 @@ test('Should update a user firstname', async () => {
 // DELETE /users/id
 test('Should delete a user', async () => {
 	await request(server)
-		.delete('/users/' + userOneId)
+		.delete(`/users/${userOneId}`)
 		.set('x-auth', userOne.tokens[0].token)
 		.expect('Content-Type', /json/)
 		.expect(200);

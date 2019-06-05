@@ -1,5 +1,5 @@
 module.exports = {
-  apps : [{
+  apps: [{
     name: 'API',
     script: 'index.js',
 
@@ -17,14 +17,14 @@ module.exports = {
     }
   }],
 
-  deploy : {
-    production : {
-      user : 'node',
-      host : '51.83.78.229',
-      ref  : 'origin/master',
-      repo : 'git@github.com:karry-project/restful-api.git',
-      path : '/var/www/restful-api',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production'
+  deploy: {
+    production: {
+      user: 'node',
+      host: '51.83.78.229',
+      ref: 'origin/master',
+      repo: 'git@github.com:karry-project/restful-api.git',
+      path: '/var/www/restful-api',
+      'post-deploy': 'npm install && pm2 reload ecosystem.config.js --env production'
     }
   }
 };

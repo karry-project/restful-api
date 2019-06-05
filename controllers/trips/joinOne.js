@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Trip = require('./../../models/Trip');
 const User = require('./../../models/User');
 
@@ -11,7 +12,6 @@ module.exports = (req, res) => {
             }
         }).then(
             trip => {
-
                 console.log('Trying to join trip', trip)
                 User.findOneAndUpdate({
                     _id: req.user.id
@@ -19,7 +19,7 @@ module.exports = (req, res) => {
                         $inc: {
                             joinedTripsCount: 1
                         }
-                    }).then((user) => {
+                    }).then(() => {
                         console.log('Trying to join trip')
                         res.status(200).send(trip);
                     }, err => {

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Room = require('../../models/Room');
 
 module.exports = (req, res) => {

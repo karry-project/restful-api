@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Trip = require('./../../models/Trip');
 
 module.exports = (req, res) => {

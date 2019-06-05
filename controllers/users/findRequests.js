@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 const Request = require('./../../models/Request');
 
 module.exports = (req, res) => {

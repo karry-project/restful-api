@@ -20,20 +20,23 @@ module.exports = (req, res) => {
             );
           });
 
-          const room = Room({
-            userId: req.user._id,
-            senderId: trip.owner,
-            requestId: request._id,
-            messages: []
-          });
-          room.save().then(
-            () => {
-              res.status(201).send(request);
-            },
-            err => {
-              res.status(400).send(err);
-            }
-          );
+          if (request.status === 'accepted') {
+            const room = Room({
+              userId: req.user._id,
+              senderId: trip.owner,
+              requestId: request._id,
+              messages: []
+            });
+
+            room.save().then(
+              () => {
+                res.status(201).send(request);
+              },
+              err => {
+                res.status(400).send(err);
+              }
+            );
+          }
         },
         err => {
           res.status(400).send(err);
